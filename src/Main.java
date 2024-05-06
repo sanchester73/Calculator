@@ -1,22 +1,18 @@
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IllegalAccessException {
         Scanner scanIn = new Scanner(System.in);
         System.out.println("Введите выражение из двух чисел от 1 до 10 или от I до X (римскими цифрами), разделённые пробелами и оператором: +, -, /, *");
         System.out.println(calc(scanIn.nextLine()));
     }
 
-    public static String calc(String input) {
+    public static String calc(String input) throws IllegalAccessException {
         String[] parcedBySpace = input.split(" ");
-        if (parcedBySpace.length != 3) {
-            return "Некорректный формат ввода";
-        }
+        if (parcedBySpace.length != 3) throw new IllegalAccessException("Некорректный формат ввода");
         boolean isA = isArab(parcedBySpace[0]) && isArab(parcedBySpace[2]);
         boolean isR = isRome(parcedBySpace[0]) && isRome(parcedBySpace[2]);
-        if (!isA && !isR) {
-            return "Допустимы только два числа от 1 до 10 или от I до X (римскими цифрами)";
-        }
+        if (!isA && !isR) throw new IllegalAccessException("Допустимы только два числа от 1 до 10 или от I до X (римскими цифрами)");
         int num1, num2;
         if (isA) {
             num1 = Integer.parseInt(parcedBySpace[0]);
@@ -31,10 +27,10 @@ public class Main {
                 case "-" -> isA ? String.valueOf(num1 - num2) : toRome (num1 - num2);
                 case "*" -> isA ? String.valueOf(num1 * num2) : toRome (num1 * num2);
                 case "/" -> isA ? String.valueOf(num1 / num2) : toRome (num1 / num2);
-                default -> "Некорректный оператор";
+                default -> throw new IllegalAccessException("Некорректный оператор");
             };
         }
-        return "Допустимы только два числа от 1 до 10 или от I до X (римскими цифрами)";
+        throw new IllegalAccessException("Допустимы только два числа от 1 до 10 или от I до X (римскими цифрами)");
     }
 
     private static boolean isArab(String s) {
@@ -86,12 +82,12 @@ public class Main {
         };
     }
 
-    private static String toRome(int arabNum) {
+    private static String toRome(int arabNum) throws IllegalAccessException {
         if (arabNum < 1) {
-            return "В римской системе нет отрицательных чисел и нуля";
+            throw new IllegalAccessException("В римской системе нет отрицательных чисел и нуля");
         }
         if (arabNum > 399) {
-            return "Обработка больше 399 не предусмотрена";
+            throw new IllegalAccessException( "Обработка больше 399 не предусмотрена");
         }
         StringBuilder RomeNum = new StringBuilder();
         int[] vals = {100, 90, 50, 40, 10, 9, 5, 4, 1};
